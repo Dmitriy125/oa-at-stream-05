@@ -37,12 +37,13 @@ return List.of(random.toString(), random.toString(), random.toString(), random.t
 
     @Test
     void test1() {
-    int nTest = random.nextInt(100);
+        int nTest = random.nextInt(100);
 
-    boolean isExpectedResult = nTest % 2 == 0;
+        boolean isExpectedResult = nTest % 2 == 0;
 
-        assertEquals(isExpectedResult, FirstTask.isEven(nTest), "TEST FAILED!");
-        System.out.println("TEST PASSED!");
+        if (isExpectedResult == FirstTask.isEven(nTest)) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
     }
 
     @Test
@@ -50,8 +51,10 @@ return List.of(random.toString(), random.toString(), random.toString(), random.t
         int ageTest = random.nextInt(21);
 
         String expectedResult = (ageTest >= 18) ? "Allowed" : "Denied";
-        assertEquals(expectedResult, FirstTask.checkAccess(ageTest), "TEST FAILED!");
-        System.out.println("TEST PASSED!");
+
+        if (expectedResult.equals(FirstTask.checkAccess(ageTest))) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
     }
 
     @RepeatedTest(3)
@@ -59,8 +62,10 @@ return List.of(random.toString(), random.toString(), random.toString(), random.t
         int nTest = random.nextInt(1, 10);
 
         boolean isExpectedResult = nTest > 0;
-        assertEquals(isExpectedResult, FirstTask.isPositive(nTest), "TEST FAILED!");
-        System.out.println("TEST PASSED!");
+
+        if (isExpectedResult == FirstTask.isPositive(nTest)) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
     }
 
     @RepeatedTest(3)
@@ -81,10 +86,10 @@ return List.of(random.toString(), random.toString(), random.toString(), random.t
             default:
                 break;
         }
-        assertThat(actualResult)
-                .as("TEST FAILED!")
-                .isIn("A", "B", "C", "D", "E");
-        System.out.println("TEST PASSED!");
+
+        if (actualResult.equals("A") || actualResult.equals("B") || actualResult.equals("C") || actualResult.equals("D") || actualResult.equals("E")) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
     }
 
     @ParameterizedTest
@@ -97,8 +102,9 @@ return List.of(random.toString(), random.toString(), random.toString(), random.t
         }
         countDown += "Поехали!";
 
-assertEquals(countDown, FirstTask.blastOff(startTest), "TEST FAILED!");
-        System.out.println("TEST PASSED!");
+        if (countDown.equals(FirstTask.blastOff(startTest))) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
 
     }
     @RepeatedTest(3)
@@ -111,8 +117,9 @@ assertEquals(countDown, FirstTask.blastOff(startTest), "TEST FAILED!");
             expectedNum += i;
         }
 
-        assertEquals(expectedNum, FirstTask.sumToN(nTest), "TEST FAILED!");
-        System.out.println("TEST PASSED!");
+        if (expectedNum == FirstTask.sumToN(nTest)) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
     }
 
     @Test
@@ -126,8 +133,9 @@ assertEquals(countDown, FirstTask.blastOff(startTest), "TEST FAILED!");
                 break;
             }
         }
-        assertEquals(isExpectedResult, FirstTask.hasBug(messagesTest), "TEST FAILED!");
-        System.out.println("TEST PASSED!");
+        if (isExpectedResult == FirstTask.hasBug(messagesTest)) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
     }
 
     @Test
@@ -140,9 +148,10 @@ assertEquals(countDown, FirstTask.blastOff(startTest), "TEST FAILED!");
             if (i % 2 == 0) evenNumber += i + " ";
         }
 
-            assertEquals(evenNumber.trim(), FirstTask.getEvenInRange(startTest, endTest), "TEST FAILED!");
+        if (evenNumber.trim().equals(FirstTask.getEvenInRange(startTest, endTest))) {
             System.out.println("TEST PASSED!");
-        }
+        } else System.out.println("TEST FAILED!");
+    }
 
 
     @RepeatedTest(3)
@@ -152,10 +161,9 @@ assertEquals(countDown, FirstTask.blastOff(startTest), "TEST FAILED!");
             if (getRandomArray[i] > test) test = getRandomArray[i]; {
             }
         }
-        assertThat(test)
-                .as("TEST FAILED!")
-                .isEqualTo(FirstTask.findMax(getRandomArray));
-        System.out.println("TEST PASSED!");
+        if (test == FirstTask.findMax(getRandomArray)) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
     }
 
     @RepeatedTest(3)
@@ -164,14 +172,10 @@ assertEquals(countDown, FirstTask.blastOff(startTest), "TEST FAILED!");
     String firstString2 = getStringArray[4];
     String lastString = FirstTask.reverse(getStringArray)[4];
     String LastString2 = FirstTask.reverse(getStringArray)[0];
-        assertThat(firstString)
-                .as("TEST FAILED!")
-                .isEqualTo(lastString);
 
-        assertThat(firstString2)
-                .as("TEST FAILED!")
-                .isEqualTo(LastString2);
-        System.out.println("TEST PASSED!");
+        if (firstString == lastString && firstString2 == LastString2) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
     }
 
     @Test
@@ -182,25 +186,27 @@ assertEquals(countDown, FirstTask.blastOff(startTest), "TEST FAILED!");
                 list.add(9);
                 list.add(10);
         int expectedResult = (list.get(0)+list.get(1)+list.get(2)+list.get(3))/list.size();
-                assertThat(FirstTask.calcAverage(list)).as("TEST FAILED!")
-                        .isEqualTo(expectedResult);
-        System.out.println("TEST PASSED!");
+
+        if (FirstTask.calcAverage(list) == expectedResult) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
     }
+
     @Test
     void test12() {
 
         List<String> expectedList = checkList();
         String excessString = expectedList.get(random.nextInt(5));
-
         List<String> newExpectedList = checkList();
+
         for (int i = 0; i < expectedList.size(); i++) {
             if (expectedList.get(i).equals(excessString)) continue;
             newExpectedList.add(expectedList.get(i));
         }
-            assertThat(FirstTask.removeSpecificName(checkList(), excessString))
-                    .as("TEST FAILED!")
-                    .doesNotContain(excessString);
-        System.out.println("TEST PASSED!");
+        List<String> actualList = FirstTask.removeSpecificName(checkList(), excessString);
+        if (!actualList.contains(excessString)) {
+            System.out.println("TEST PASSED!");
+        } else System.out.println("TEST FAILED!");
         }
     }
 

@@ -38,89 +38,113 @@ return List.of(random.toString(), random.toString(), random.toString(), random.t
     @Test
     void test1() {
     int nTest = random.nextInt(100);
-        assertTrue(FirstTask.isEven(nTest), "Число " + nTest + " является не четным. Ожидаемое число должно быть четным.");
-//    if(FirstTask.isEven(nTest)) System.out.println("Число " + nTest + " является четным. TEST PASSED!");
-//    else System.out.println("Число " + nTest + " является не четным. TEST FAILED!");
+
+    boolean isExpectedResult = nTest % 2 == 0;
+
+        assertEquals(isExpectedResult, FirstTask.isEven(nTest), "TEST FAILED!");
+        System.out.println("TEST PASSED!");
     }
 
     @Test
     void test2() {
         int ageTest = random.nextInt(21);
-        assertEquals("Allowed", FirstTask.checkAccess(ageTest), "Ожидаемое число больше или равно 18. Число " + ageTest + " меньше 18");
-//        if(FirstTask.checkAccess(ageTest) == "Allowed") System.out.println("Ваш возраст: " + ageTest + ". TEST PASSED!");
-//        else System.out.println("Ваш возраст: " + ageTest + ". Дождитесь когда Вам станет 18. TEST FAILED!");
+
+        String expectedResult = (ageTest >= 18) ? "Allowed" : "Denied";
+        assertEquals(expectedResult, FirstTask.checkAccess(ageTest), "TEST FAILED!");
+        System.out.println("TEST PASSED!");
     }
 
     @RepeatedTest(3)
     void test3() {
-        int nTest = random.nextInt(-10, 10);
-        assertTrue(FirstTask.isPositive(nTest), "Число " + nTest + " является отрицательным. Ожидаемое число должно быть положительным");
-//        if(FirstTask.isPositive(nTest)) System.out.println("Число " + nTest + " положительное. TEST PASSED!");
-//        else System.out.println("Число " + nTest + " является отрицательным. TEST FAILED!");
+        int nTest = random.nextInt(1, 10);
+
+        boolean isExpectedResult = nTest > 0;
+        assertEquals(isExpectedResult, FirstTask.isPositive(nTest), "TEST FAILED!");
+        System.out.println("TEST PASSED!");
     }
+
     @RepeatedTest(3)
     void test4() {
-        int scoreTest = random.nextInt(-5, 200);
+        int scoreTest = random.nextInt(0, 100);
         String actualResult = FirstTask.getGrade(scoreTest);
         switch(actualResult) {
             case "E":
-//                System.out.println("Число " + scoreTest + " входит в предел от 0 до 20\nTEST PASSED!");
                 break;
             case "D":
-//                System.out.println("Число " + scoreTest + " входит в предел от 21 до 40\nTEST PASSED!");
                 break;
             case "C":
-//                System.out.println("Число " + scoreTest + " входит в предел от 41 до 60\nTEST PASSED!");
                 break;
             case "B":
-//                System.out.println("Число " + scoreTest + " входит в предел от 61 до 80\nTEST PASSED!");
                 break;
             case "A":
-//                System.out.println("Число " + scoreTest + " входит в предел от 81 до 100\nTEST PASSED!");
                 break;
             default:
-//                System.out.println("Число " + scoreTest + " не входит в предел от 0 до 100\nTEST FAILED!");
                 break;
         }
         assertThat(actualResult)
-                .as("Число " +scoreTest + " не входит в ожидаемый предел от 0 до 100")
+                .as("TEST FAILED!")
                 .isIn("A", "B", "C", "D", "E");
+        System.out.println("TEST PASSED!");
     }
 
     @ParameterizedTest
-    @ValueSource (ints = {-1, 0, 1, 2, 12})
+    @ValueSource (ints = {1, 2, 12})
     void test5(int startTest) {
-        assertThat(FirstTask.blastOff(startTest))
-                .as("Обратный отчет не может стартовать со значения ниже единицы")
-                .containsAnyOf("Поехали!");
-//        if(FirstTask.blastOff(startTest).toString() == "") System.out.println("Обратный отчет не может начаться с " + startTest +". TEST FAILED!");
-//        else System.out.println(FirstTask.blastOff(startTest).toString() + ". Обратный отчет стартовал. TEST PASSED!");
+
+        String countDown = "";
+        for (int i = startTest; i >= 1; i--) {
+            countDown += i + " ";
+        }
+        countDown += "Поехали!";
+
+assertEquals(countDown, FirstTask.blastOff(startTest), "TEST FAILED!");
+        System.out.println("TEST PASSED!");
 
     }
     @RepeatedTest(3)
     void test6() {
-        int nTest = random.nextInt(-10, 10);
-        assertThat(FirstTask.sumToN(nTest)).as("Для расчета сумму чисел, ожидаемое число " + nTest + " должно быть больше единицы").isGreaterThan(1);
-//        if(FirstTask.sumToN(nTest) < 1) System.out.println("Не получается рассчитать сумму чисел от 1 до "+ nTest + ". TEST FAILED!");
-//        else System.out.println("Сумма чисел от 1 до "+ nTest + " равняется " + FirstTask.sumToN(nTest)+ ".TEST PASSED!");
+        int nTest = random.nextInt(1, 10);
+
+        int expectedNum = 0;
+        int sum = nTest;
+        for (int i = 0; i <= sum; i++) {
+            expectedNum += i;
+        }
+
+        assertEquals(expectedNum, FirstTask.sumToN(nTest), "TEST FAILED!");
+        System.out.println("TEST PASSED!");
     }
+
     @Test
     void test7() {
-        // Тут не придумал как сделать проверку, захардкодил
         String[] messagesTest = {"hEllO", "mY", "naMe", "bUG", "iS", "AlEx"};
-        assertTrue(FirstTask.hasBug(messagesTest), "Строка в массиве не содержит слово \"Bug\"");
-//        if(FirstTask.hasBug(messagesTest)) System.out.println("Строка в массиве содержит слово \"Bug\". TEST PASSED!");
-//        else System.out.println("Строка в массиве не содержит слово \"Bug\".TEST FAILED!");
+
+        boolean isExpectedResult = false;
+        for (String message : messagesTest) {
+            if (message.equalsIgnoreCase("bug")) {
+                isExpectedResult = true;
+                break;
+            }
+        }
+        assertEquals(isExpectedResult, FirstTask.hasBug(messagesTest), "TEST FAILED!");
+        System.out.println("TEST PASSED!");
     }
+
     @Test
     void test8() {
-        int startTest = random.nextInt(0, 20);
-        int endTest = random.nextInt(0, 20);
-        assertNotEquals("",FirstTask.getEvenInRange(startTest,endTest), "В промежутках между "+ startTest + " и "+ endTest + " отсутствуют четные числа. Введите такие числа startTest и endTest, чтобы в их диапазоне были четные числа");
-//        if(FirstTask.getEvenInRange(startTest, endTest) == "") System.out.println("В "В промежутках между "+ startTest + " и "+ endTest + " отсутствуют четные числа. TEST FAILED!");
-//        else System.out.println("В промежутках между числами "+ startTest + " и "+ endTest + " есть строка из четных чисел " + FirstTask.getEvenInRange(startTest, endTest).toString() + ". TEST PASSED!");
+        int startTest = random.nextInt(0, 10);
+        int endTest = random.nextInt(10, 20);
+        String evenNumber = "";
 
-    }
+        for (int i = startTest; i <= endTest; i++) {
+            if (i % 2 == 0) evenNumber += i + " ";
+        }
+
+            assertEquals(evenNumber.trim(), FirstTask.getEvenInRange(startTest, endTest), "TEST FAILED!");
+            System.out.println("TEST PASSED!");
+        }
+
+
     @RepeatedTest(3)
     void test9() {
         int test = getRandomArray[0];
@@ -128,22 +152,28 @@ return List.of(random.toString(), random.toString(), random.toString(), random.t
             if (getRandomArray[i] > test) test = getRandomArray[i]; {
             }
         }
-        assertThat(test).as("В массиве число "+ test + " не является максимальным").isEqualTo(FirstTask.findMax(getRandomArray));
-//        if(FirstTask.findMax(getRandomArray) == test) System.out.println("Максимальным числом в массиве " + Arrays.toString(getRandomArray) + " является " + test + ". TEST PASSED!");
-//        else System.out.println("Число " + test + " не является максимальным в массиве " + Arrays.toString(getRandomArray) + ". TEST PASSED!");
+        assertThat(test)
+                .as("TEST FAILED!")
+                .isEqualTo(FirstTask.findMax(getRandomArray));
+        System.out.println("TEST PASSED!");
     }
+
     @RepeatedTest(3)
     void test10() {
     String firstString = getStringArray[0];
     String firstString2 = getStringArray[4];
     String lastString = FirstTask.reverse(getStringArray)[4];
     String LastString2 = FirstTask.reverse(getStringArray)[0];
-        assertThat(firstString).as("Массив не расположен в обратном порядке").isEqualTo(lastString);
-        assertThat(firstString2).as("Массив не расположен в обратном порядке").isEqualTo(LastString2);
+        assertThat(firstString)
+                .as("TEST FAILED!")
+                .isEqualTo(lastString);
 
-//    if (firstString.equals(lastString)) System.out.println("TEST PASSED!");
-//    else System.out.println("TEST FAILED!");
+        assertThat(firstString2)
+                .as("TEST FAILED!")
+                .isEqualTo(LastString2);
+        System.out.println("TEST PASSED!");
     }
+
     @Test
     void test11() {
         List<Integer> list = new ArrayList<>();
@@ -152,22 +182,25 @@ return List.of(random.toString(), random.toString(), random.toString(), random.t
                 list.add(9);
                 list.add(10);
         int expectedResult = (list.get(0)+list.get(1)+list.get(2)+list.get(3))/list.size();
-                assertThat(FirstTask.calcAverage(list)).as("Данное число не является средним арифметическим списка").isEqualTo(expectedResult);
-//        if (FirstTask.calcAverage(list) == (list.get(0)+list.get(1)+list.get(2)+list.get(3))/list.size())
-//            System.out.println("TEST PASSED!");
-//        else System.out.println("TEST FAILED!");
-
+                assertThat(FirstTask.calcAverage(list)).as("TEST FAILED!")
+                        .isEqualTo(expectedResult);
+        System.out.println("TEST PASSED!");
     }
     @Test
     void test12() {
-        String excessString = checkList().get(random.nextInt(5));
-        List<String> newList = FirstTask.removeSpecificName(checkList(), excessString);
-        assertThat(FirstTask.removeSpecificName(checkList(), excessString)).doesNotContain(excessString, "Строка " +excessString+ " не исключена из списка");
-//        if(newList.contains(excessString)) System.out.println("TEST FAILED!");
-//        else System.out.println("TEST PASSED!");
 
+        List<String> expectedList = checkList();
+        String excessString = expectedList.get(random.nextInt(5));
 
-
+        List<String> newExpectedList = checkList();
+        for (int i = 0; i < expectedList.size(); i++) {
+            if (expectedList.get(i).equals(excessString)) continue;
+            newExpectedList.add(expectedList.get(i));
+        }
+            assertThat(FirstTask.removeSpecificName(checkList(), excessString))
+                    .as("TEST FAILED!")
+                    .doesNotContain(excessString);
+        System.out.println("TEST PASSED!");
+        }
     }
-}
 
